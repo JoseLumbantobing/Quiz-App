@@ -64,14 +64,15 @@ const takeQuiz = () => {
     dText.innerText = quizzes.d;
 }
 
-// const correctChoice = () => {
-//     const quizzes = quizData[currentQuiz];
-//     answers.forEach(answer => {
-//         if(answer.id == quizzes.correct) {
-//             score++;
-//         }
-//     });
-// }
+const correctChoice = () => {
+    let correct = undefined;
+    answers.forEach(answer => {
+        if(answer.checked) {
+            correct = answer.id;
+        }
+    });
+    return correct;
+}
 
 const resetChoices = () => {
     answers.forEach(answer => {
@@ -81,16 +82,29 @@ const resetChoices = () => {
 
 const nextQuiz = () => {
     button.addEventListener('click', () => {
+        const result = correctChoice();
+        if (result === quizData[currentQuiz].correct) {
+            score++;
+        }
+
         currentQuiz++;
         if(currentQuiz < quizData.length) {
             takeQuiz();
         } else {
-            // correctChoice();
-            console.log(score);
+            container.innerHTML = `
+            <h2>You've finished the quiz. You are correct ${score} out of 5 questions!</h2>
+            <button class="retake">Retake Quiz</button>
+            `
+
+            const retake = document.querySelector('.retake');
+            retake.addEventListener('click', () => {
+                // Javascript method to reload the page
+                location.reload();
+            });
         }
     });
 }
 
-nextQuiz();
-
 takeQuiz();
+
+nextQuiz();

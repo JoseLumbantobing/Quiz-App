@@ -41,6 +41,8 @@ const quizData = [
     },
 ];
 
+const container = document.querySelector('.container');
+const answers = document.querySelectorAll('.answer');
 const question = document.querySelector('.question');
 const aText = document.getElementById('a-text');
 const bText = document.getElementById('b-text');
@@ -49,9 +51,10 @@ const dText = document.getElementById('d-text');
 const button = document.querySelector('.btn');
 
 let currentQuiz = 0;
+let score = 0;
 
 const takeQuiz = () => {
-    // nextQuiz();
+    resetChoices();
 
     const quizzes = quizData[currentQuiz];
     question.innerText = quizzes.question;
@@ -61,11 +64,29 @@ const takeQuiz = () => {
     dText.innerText = quizzes.d;
 }
 
+// const correctChoice = () => {
+//     const quizzes = quizData[currentQuiz];
+//     answers.forEach(answer => {
+//         if(answer.id == quizzes.correct) {
+//             score++;
+//         }
+//     });
+// }
+
+const resetChoices = () => {
+    answers.forEach(answer => {
+        answer.checked = false;
+    });
+}
+
 const nextQuiz = () => {
     button.addEventListener('click', () => {
         currentQuiz++;
         if(currentQuiz < quizData.length) {
             takeQuiz();
+        } else {
+            // correctChoice();
+            console.log(score);
         }
     });
 }
